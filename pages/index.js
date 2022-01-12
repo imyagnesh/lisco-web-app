@@ -1,5 +1,5 @@
-import Button from '../components/Button';
 import Input from '../components/Input';
+import Button from '../components/Button';
 
 function Home({ data }) {
   console.log(data);
@@ -15,12 +15,12 @@ function Home({ data }) {
 }
 
 export const getServerSideProps = async () => {
-  const res = await fetch('http://localhost:1337/api/products');
-  const data = await res.json();
+  // const res = await fetch('http://localhost:1337/api/products');
+  // const data = await res.json();
 
   return {
     props: {
-      data,
+      data: [],
     },
   };
 };

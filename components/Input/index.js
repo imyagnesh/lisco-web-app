@@ -1,12 +1,12 @@
-function Input(props) {
-  console.log(props);
+function Input({ label }) {
+  // console.log(props);
   return (
     <div className="col-span-6 sm:col-span-3">
       <label
         htmlFor="first-name"
         className="block text-sm font-medium text-gray-700"
       >
-        {props.label}
+        {label}
       </label>
       <input
         type="text"

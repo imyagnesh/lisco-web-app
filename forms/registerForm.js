@@ -1,7 +1,9 @@
 import Input from '@components/Input';
+import Select from '@components/Select';
 
 export const registerInitialValues = {
   name: '',
+  gender: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -14,6 +16,32 @@ export const registerFields = [
     type: 'text',
     placeholder: 'Name',
     isFirst: true,
+    validate: (value) => {
+      if (!value) {
+        return 'Required...';
+      } else {
+        return '';
+      }
+    },
+  },
+  {
+    name: 'gender',
+    component: Select,
+    placeholder: 'Please Select Gender',
+    options: [
+      {
+        value: 'male',
+        text: 'Male',
+      },
+      {
+        value: 'female',
+        text: 'Female',
+      },
+      {
+        value: 'other',
+        text: 'Other',
+      },
+    ],
     validate: (value) => {
       if (!value) {
         return 'Required...';
@@ -71,6 +99,8 @@ export const registerFields = [
         !/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/i.test(value)
       ) {
         return 'Invalid password';
+      } else if (password.value !== value) {
+        return 'confirm password should match.';
       } else {
         return '';
       }

@@ -11,7 +11,17 @@ function Register({ data }) {
     console.log(values);
   };
   return (
-    <Formik initialValues={registerInitialValues} onSubmit={onSubmitLogin}>
+    <Formik
+      initialValues={registerInitialValues}
+      onSubmit={onSubmitLogin}
+      // validate={(values) => {
+      //   const error = {};
+      //   if (values.password !== values.confirmPassword) {
+      //     error.confirmPassword = 'confirm password should match.';
+      //   }
+      //   return error;
+      // }}
+    >
       {({ isValid, dirty }) => {
         return (
           <Form className="mt-8 space-y-6">

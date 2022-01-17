@@ -2,24 +2,38 @@ import AuthLayout from '@components/AuthLayout';
 import { Form, Formik, Field } from 'formik';
 import cn from 'classnames';
 import LockClosedIcon from '../public/icons/lock.svg';
-import { registerFields, registerInitialValues } from 'forms/registerForm';
+import { loginFields, loginInitialValues } from 'forms/loginForm';
 
 console.log('url', process.env.NEXT_PUBLIC_API_URL);
 
-function Register({ data }) {
+function Login({ data }) {
   const onSubmitLogin = (values) => {
     console.log(values);
   };
   return (
-    <Formik initialValues={registerInitialValues} onSubmit={onSubmitLogin}>
+    <Formik initialValues={loginInitialValues} onSubmit={onSubmitLogin}>
       {({ isValid, dirty }) => {
         return (
           <Form className="mt-8 space-y-6">
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
-              {registerFields.map((x) => (
-                <Field key={x.name} {...x} />
-              ))}
+              {loginFields
+                .filter((x) => x.type)
+                .map((x) => (
+                  <Field key={x.name} {...x} />
+                ))}
+            </div>
+
+            <div className="flex items-center justify-between">
+              <Field {...loginFields[2]} />
+              <div className="text-sm">
+                <a
+                  href="#"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  Forgot your password?
+                </a>
+              </div>
             </div>
 
             <div>
@@ -42,7 +56,7 @@ function Register({ data }) {
                     fill="rgb(99 102 241 / 1)"
                   />
                 </span>
-                Sign up
+                Sign in
               </button>
             </div>
           </Form>
@@ -52,7 +66,7 @@ function Register({ data }) {
   );
 }
 
-Register.getLayout = function getLayout(page) {
+Login.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 
@@ -67,4 +81,4 @@ export const getServerSideProps = async () => {
   };
 };
 
-export default Register;
+export default Login;

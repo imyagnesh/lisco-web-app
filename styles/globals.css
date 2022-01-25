@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Newsreader';
+    font-weight: 700;
+    src: url('../public/fonts/Newsreader16pt-Bold.woff2') format('woff2'),
+      url('../public/fonts/Newsreader16pt-Bold.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Newsreader';
+    font-weight: 400;
+    src: url('../public/fonts/Newsreader16pt-Regular.woff2') format('woff2'),
+      url('../public/fonts/Newsreader16pt-Regular.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 100;
+    src: url('../public/fonts/roboto-thin-webfont.woff2') format('woff2'),
+      url('../public/fonts/roboto-thin-webfont.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 400;
+    src: url('../public/fonts/roboto-regular-webfont.woff2') format('woff2'),
+      url('../public/fonts/roboto-regular-webfont.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Roboto';
+    font-weight: 500;
+    src: url('../public/fonts/roboto-medium-webfont.woff2') format('woff2'),
+      url('../public/fonts/roboto-medium-webfont.woff') format('woff');
+  }
+}

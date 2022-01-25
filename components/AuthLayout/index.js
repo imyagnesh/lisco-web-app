@@ -12,11 +12,11 @@ const AuthLayout = ({ children }) => {
             height={48}
             width={48}
           />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="font-serif mt-6 text-center text-3xl font-semibold text-gray-900">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
+            Or
             <a
               href="#"
               className="font-medium text-indigo-600 hover:text-indigo-500"

@@ -37,4 +37,54 @@
     src: url('../public/fonts/roboto-medium-webfont.woff2') format('woff2'),
       url('../public/fonts/roboto-medium-webfont.woff') format('woff');
   }
+
+  /* h1 {
+    @apply text-sm sm:text-base md:text-lg lg:text-xl;
+  }
+  h2 {
+  }
+  h3 {
+  }
+  h4 {
+  }
+  h5 {
+  }
+  h6 {
+  }
+  p {
+  }
+  a {
+  }
+
+  ul {
+  }
+
+  ul > li {
+  }
+
+  ol {
+  }
+
+  ol > li {
+  } */
+}
+
+@layer components {
+  .text_red {
+    @apply text-red-500 !important;
+  }
+  .p_small {
+  }
+
+  .p_large {
+  }
+
+  .bold {
+  }
+
+  .italic {
+  }
+
+  .quote {
+  }
 }

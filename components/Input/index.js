@@ -5,6 +5,7 @@ function Input({
   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   isFirst,
   isLast,
+  className,
   ...props
 }) {
   return (
@@ -21,6 +22,7 @@ function Input({
             'rounded-b-md': isLast,
             'border-red-300 focus:border-red-500 rounded-b-md':
               touched[field.name] && !!errors[field.name],
+            [className]: !!className,
           }
         )}
         {...field}

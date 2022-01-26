@@ -14,6 +14,7 @@ export const loginFields = [
     type: 'email',
     autoComplete: 'email',
     placeholder: 'Email address',
+    className: 'email',
     isFirst: true,
     validate: (value) => {
       if (!value) {

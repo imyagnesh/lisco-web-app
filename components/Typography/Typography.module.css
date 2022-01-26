@@ -1,0 +1,7 @@
+.h1 {
+  @apply text-sm sm:text-base md:text-lg lg:text-xl text-neutral-800;
+}
+
+.p {
+  @apply text-sm sm:text-base md:text-lg lg:text-xl text-neutral-600;
+}

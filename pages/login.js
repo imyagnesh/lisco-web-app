@@ -3,6 +3,7 @@ import { Form, Formik, Field } from 'formik';
 import cn from 'classnames';
 import LockClosedIcon from '../public/icons/lock.svg';
 import { loginFields, loginInitialValues } from 'forms/loginForm';
+import Typography from '@components/Typography';
 
 console.log('url', process.env.NEXT_PUBLIC_API_URL);
 
@@ -15,6 +16,12 @@ function Login({ data }) {
       {({ isValid, dirty }) => {
         return (
           <Form className="mt-8 space-y-6">
+            <Typography as="h1">Hello from h1 typography</Typography>
+            <Typography className="text_red">
+              Hello from p typography
+            </Typography>
+            {/* <h1>hello</h1> */}
+            <Typography as="h1">hello</Typography>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               {loginFields

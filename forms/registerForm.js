@@ -2,19 +2,19 @@ import Input from '@components/Input';
 import Select from '@components/Select';
 
 export const registerInitialValues = {
-  name: '',
-  gender: '',
+  username: '',
   email: '',
+  mobile: '',
   password: '',
   confirmPassword: '',
 };
 
 export const registerFields = [
   {
-    name: 'name',
+    name: 'username',
     component: Input,
     type: 'text',
-    placeholder: 'Name',
+    placeholder: 'Username',
     isFirst: true,
     validate: (value) => {
       if (!value) {
@@ -25,23 +25,10 @@ export const registerFields = [
     },
   },
   {
-    name: 'gender',
-    component: Select,
-    placeholder: 'Please Select Gender',
-    options: [
-      {
-        value: 'male',
-        text: 'Male',
-      },
-      {
-        value: 'female',
-        text: 'Female',
-      },
-      {
-        value: 'other',
-        text: 'Other',
-      },
-    ],
+    name: 'mobile',
+    component: Input,
+    type: 'tel',
+    placeholder: 'Mobile',
     validate: (value) => {
       if (!value) {
         return 'Required...';
@@ -66,7 +53,6 @@ export const registerFields = [
       }
     },
   },
-
   {
     name: 'password',
     component: Input,

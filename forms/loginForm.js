@@ -2,19 +2,19 @@ import Checkbox from '@components/Checkbox';
 import Input from '@components/Input';
 
 export const loginInitialValues = {
-  email: '',
+  identifier: '',
   password: '',
   remember_me: false,
 };
 
 export const loginFields = [
   {
-    name: 'email',
+    name: 'identifier',
     component: Input,
     type: 'email',
     autoComplete: 'email',
     placeholder: 'Email address',
-    className: 'email',
+    className: 'identifier',
     isFirst: true,
     validate: (value) => {
       if (!value) {

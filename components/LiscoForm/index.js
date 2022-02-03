@@ -6,9 +6,14 @@ import LockClosedIcon from '../../public/icons/lock.svg';
 const LiscoForm = ({ children, fields, btnText, ...props }) => {
   return (
     <Formik {...props}>
-      {({ isValid, dirty }) => {
+      {({ isValid, dirty, errors }) => {
         return (
           <Form className="mt-8 space-y-6">
+            {errors.serverError && (
+              <p className="text-red-500 text-2xl text-center my-3">
+                {errors.serverError}
+              </p>
+            )}
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               {fields.map((x) => (

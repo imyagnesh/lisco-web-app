@@ -1,85 +1,56 @@
-import Button from '@components/Button';
-import Child1 from '@components/Child1';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { Suspense } from 'react/cjs/react.production.min';
 import MainLayout from '@components/MainLayout';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
 
-const Test = ({ children }) => {
-  return <div id="test">{children}</div>;
-};
+const shimmer = (w, h) => `
+<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#333" offset="20%" />
+      <stop stop-color="#222" offset="50%" />
+      <stop stop-color="#333" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="${w}" height="${h}" fill="#333" />
+  <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+</svg>`;
 
-// Component will rerender only and only when props value or state value change
+const toBase64 = (str) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str);
 
-// if you pass any function as a prop then you have to wrap with useCallback
-
-// if you pass any variable as a prop then you have to wrap with useMemo
+const Button = dynamic(() => import('@components/Button'), {
+  suspense: true,
+});
 
 const Home = () => {
   const [counter, setCounter] = useState(0);
-  const [test, setTest] = useState(15);
-  const [todo, setTodo] = useState(null);
-  const btnRef = useRef();
 
-  // useCallback use to memorize functions
-  // ComponentDidMount -> Life cycle methods
-  useEffect(() => {
-    console.log('called on launch');
-
-    const loadData = async () => {
-      try {
-        const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-        const json = await res.json();
-        setTodo(json);
-      } catch (error) {}
-    };
-
-    loadData();
-
-    // server
-  }, []);
-
-  const increment = useCallback(() => {
-    setCounter((abc) => {
-      return abc + 1;
-    });
-  }, []);
-
-  const decrement = useCallback(() => {
-    setCounter((val) => val - 1);
-  }, []);
-
-  const changeColor = () => {
-    // O(N)
-    // document.getElementById('button1').style = 'color: red';
-    btnRef.current.style = 'color: red';
-  };
-
-  // In function component if you change state value of prop value all variable will create new instance
-  // useMemo use for variables
-  const a = useMemo(() => ({ a: test }), [test]);
-
-  console.log('Home render');
   return (
-    <>
-      <Child1 data={a} />
-      <div className="flex w-1/3 items-center">
-        <Button
-          ref={btnRef}
-          id="button1"
-          title="Increment"
-          onClick={increment}
-        />
-        <p className="px-4">{counter}</p>
-        <Button title="Decrement" onClick={decrement} />
-      </div>
-      <Button title="Change Test value" onClick={() => setTest(20)} />
-      {todo && <h1>{todo.title}</h1>}
-    </>
+    <div>
+      <button type="button" onClick={() => setCounter((val) => val + 1)}>
+        Increment Counter
+      </button>
+      <h1>{counter}</h1>
+      {counter > 5 && (
+        <Suspense
+          fallback={
+            <Image
+              alt="Mountains"
+              src={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+              width={700}
+              height={475}
+            />
+          }
+        >
+          <Button title="Add" />
+        </Suspense>
+      )}
+    </div>
   );
 };
 

@@ -20,4 +20,6 @@ const Button = forwardRef(({ title, icon: Icon, ...props }, ref) => {
   );
 });
 
+Button.displayName = 'Button';
+
 export default memo(Button);

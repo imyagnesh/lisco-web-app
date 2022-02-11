@@ -1,7 +1,8 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['tailwindui.com'],
+    domains: ['tailwindui.com', 'images.unsplash.com'],
+    formats: ['image/avif', 'image/webp'],
   },
   webpack: (config, options) => {
     config.module.rules.push({
@@ -10,5 +11,9 @@ module.exports = {
     });
 
     return config;
+  },
+  experimental: {
+    concurrentFeatures: true,
+    serverComponents: true,
   },
 };

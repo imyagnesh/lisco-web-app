@@ -5,10 +5,10 @@ import bannerQuery from '@queries/bannerQuery';
 import Carousal from '@components/carousal';
 
 const Home = ({ banners }) => {
+  console.log(process.env.NEXT_PUBLIC_API_URL);
   return (
     <>
-      <Carousal />
-      <Banner data={banners.banners.data} />
+      <Carousal data={banners.banners.data} />
     </>
   );
 };
@@ -18,18 +18,16 @@ Home.getLayout = function getLayout(page) {
 };
 
 export async function getServerSideProps(context) {
-  const res = await fetch(
-    'https://f44d-2401-4900-555b-e1f6-b992-456f-a826-cd5.ngrok.io/graphql',
-    {
-      method: 'post',
-      body: JSON.stringify({
-        query: bannerQuery,
-      }),
-      headers: {
-        'content-type': 'application/json',
-      },
-    }
-  );
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${baseUrl}/graphql`, {
+    method: 'post',
+    body: JSON.stringify({
+      query: bannerQuery,
+    }),
+    headers: {
+      'content-type': 'application/json',
+    },
+  });
 
   const json = await res.json();
 

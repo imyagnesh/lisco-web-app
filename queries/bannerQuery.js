@@ -1,15 +1,16 @@
 export default `{
-    banners {
-      data {
-        attributes {
-          bannerImage {
-            data {
-              attributes {
-                url
-              }
+  banners {
+    data {
+      id
+      attributes {
+        bannerImage {
+          data {
+            attributes {
+              url
             }
           }
         }
       }
     }
-  }`;
+  }
+}`;

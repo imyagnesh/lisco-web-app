@@ -1,9 +1,10 @@
 import React, { Suspense } from 'react';
-import MainLayout from '@components/MainLayout/mainlayout';
+import MainLayout from 'layouts/MainLayout';
 import Banner from '@components/Banner/banner';
 import Carousal from '@components/carousal';
 import HomeQuery from '@queries/homeQuery';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const myLoader = ({ src, width, quality = 75 }) => {
   const searchKey = 'upload/';
@@ -35,30 +36,37 @@ const placeholder = ({ src, width, quality = 75 }) => {
 
 const Home = ({ home }) => {
   console.log(process.env.NEXT_PUBLIC_API_URL);
+  const router = useRouter();
+  console.log('home', home);
   return (
     <>
-      {(home?.products?.data || []).map((x) => {
-        return (
-          <Image
-            key={x.id}
-            loader={myLoader}
-            src={x.attributes.productImage.data[0].attributes.url}
-            alt={x.attributes.productName}
-            height={100}
-            width={100}
-            quality={60}
-            placeholder="blur"
-            blurDataURL={placeholder({
-              src: x.attributes.productImage.data[0].attributes.url,
-              width: 100,
-              quality: 1,
-            })}
-          />
-        );
-      })}
       <Carousal data={home?.banners?.data || []} />
       {(home?.categories?.data || []).map((x) => {
         return <h1 key={x.id}>{x.attributes.category}</h1>;
+      })}
+      {(home?.products?.data || []).map((x) => {
+        return (
+          <div
+            key={x.id}
+            role="button"
+            onClick={() => router.push(`products/${x.id}`)}
+          >
+            <Image
+              loader={myLoader}
+              src={x.attributes.productImage.data[0].attributes.url}
+              alt={x.attributes.productName}
+              height={100}
+              width={100}
+              quality={60}
+              placeholder="blur"
+              blurDataURL={placeholder({
+                src: x.attributes.productImage.data[0].attributes.url,
+                width: 100,
+                quality: 1,
+              })}
+            />
+          </div>
+        );
       })}
     </>
   );
@@ -74,6 +82,9 @@ export async function getServerSideProps(context) {
     method: 'post',
     body: JSON.stringify({
       query: HomeQuery,
+      variables: {
+        categoryId: 1,
+      },
     }),
     headers: {
       'content-type': 'application/json',

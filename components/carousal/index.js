@@ -64,7 +64,6 @@ const Carousal = ({ data }) => {
         </button>
       </div>
       {data.map((x, index) => {
-        console.log(x);
         return (
           <div
             key={x.id}
@@ -76,12 +75,14 @@ const Carousal = ({ data }) => {
               }
             )}
           >
-            <Image
-              src={x.attributes.bannerImage.data.attributes.url}
-              alt="banner"
-              layout="fill"
-              objectFit="cover"
-            />
+            <div className="relative h-full w-full">
+              <Image
+                src={x.attributes.bannerImage.data.attributes.url}
+                alt="banner"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           </div>
         );
       })}

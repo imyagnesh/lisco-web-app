@@ -1,7 +1,15 @@
 import React from 'react';
+import styles from './markdownStyle.module.css';
 
-const MarkdownLayout = ({ children }) => {
-  return <div className="prose">{children}</div>;
+const MarkdownLayout = ({ content }) => {
+  return (
+    <>
+      <div
+        className={styles['markdown']}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    </>
+  );
 };
 
 export default MarkdownLayout;

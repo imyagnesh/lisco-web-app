@@ -30,6 +30,7 @@ const HomeQuery = `query($categoryId:ID, $start: Int = 0, $limit: Int = 5) {
   }
   products(filters: {category: { id: { eq: $categoryId  }}}, pagination: { start: $start, limit: $limit}) {
     data {
+      id
       attributes  {
         productName
         features

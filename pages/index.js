@@ -37,7 +37,7 @@ const placeholder = ({ src, width, quality = 75 }) => {
 const Home = ({ home }) => {
   console.log(process.env.NEXT_PUBLIC_API_URL);
   const router = useRouter();
-  console.log('home', home);
+  console.log('home', home?.products?.data);
   return (
     <>
       <Carousal data={home?.banners?.data || []} />

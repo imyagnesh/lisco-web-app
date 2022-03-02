@@ -3,8 +3,10 @@ import MainLayout from 'layouts/MainLayout';
 import Banner from '@components/Banner/banner';
 import Carousal from '@components/carousal';
 import HomeQuery from '@queries/homeQuery';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { Pagination } from 'swiper';
 
 const myLoader = ({ src, width, quality = 75 }) => {
   const searchKey = 'upload/';
@@ -38,12 +40,35 @@ const Home = ({ home }) => {
   console.log(process.env.NEXT_PUBLIC_API_URL);
   const router = useRouter();
   console.log('home', home?.products?.data);
+  console.log('banners', home?.banners?.data);
   return (
     <>
-      <Carousal data={home?.banners?.data || []} />
+      <div>
+        <Swiper
+          className="h-screen"
+          slidesPerView={1}
+          modules={[Pagination]}
+          pagination={{
+            dynamicBullets: true,
+          }}
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+        >
+          {home?.banners?.data.map((banner) => (
+            <SwiperSlide key={banner.id}>
+              <Image
+                src={banner.attributes.bannerImage.data.attributes.url}
+                alt="image"
+                layout="fill"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      {/* <Carousal data={home?.banners?.data || []} />
       {(home?.categories?.data || []).map((x) => {
         return <h1 key={x.id}>{x.attributes.category}</h1>;
-      })}
+      })} */}
       {(home?.products?.data || []).map((x) => {
         return (
           <div

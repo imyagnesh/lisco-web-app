@@ -7,6 +7,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Pagination } from 'swiper';
+import Section from '@components/Section';
+import ProductImage from '@components/ProductImage';
 
 const myLoader = ({ src, width, quality = 75 }) => {
   const searchKey = 'upload/';
@@ -41,29 +43,50 @@ const Home = ({ home }) => {
   const router = useRouter();
   console.log('home', home?.products?.data);
   console.log('banners', home?.banners?.data);
+  console.log('category', home?.categories?.data);
   return (
     <>
-      <div>
-        <Swiper
-          className="h-screen"
-          slidesPerView={1}
-          modules={[Pagination]}
-          pagination={{
-            dynamicBullets: true,
-          }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-          {home?.banners?.data.map((banner) => (
-            <SwiperSlide key={banner.id}>
-              <Image
-                src={banner.attributes.bannerImage.data.attributes.url}
-                alt="image"
-                layout="fill"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+      <Swiper
+        className="h-screen"
+        slidesPerView={1}
+        modules={[Pagination]}
+        pagination={{
+          dynamicBullets: true,
+        }}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
+        {home?.banners?.data.map((banner) => (
+          <SwiperSlide key={banner.id}>
+            <Image
+              src={banner.attributes.bannerImage.data.attributes.url}
+              alt="image"
+              layout="fill"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <div className="max-w-7xl mx-auto">
+        <Section
+          title="Shop By Category"
+          linkText="Browse all Category"
+          href="/"
+        />
+        <div className="flex gap-6 my-4">
+          {home?.categories?.data.map((category) => {
+            if (category?.attributes?.image?.data?.attributes?.url) {
+              return (
+                <ProductImage
+                  key={category.id}
+                  src={category.attributes.image.data.attributes.url}
+                  alt={category.attributes.category}
+                  title={category.attributes.category}
+                />
+              );
+            }
+            return null;
+          })}
+        </div>
       </div>
       {/* <Carousal data={home?.banners?.data || []} />
       {(home?.categories?.data || []).map((x) => {

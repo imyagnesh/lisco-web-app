@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { getSession } from 'next-auth/react';
 import MainLayout from 'layouts/MainLayout';
 import Banner from '@components/Banner/banner';
 import Carousal from '@components/carousal';
@@ -9,6 +10,7 @@ import { useRouter } from 'next/router';
 import { Pagination } from 'swiper';
 import Section from '@components/Section';
 import ProductImage from '@components/ProductImage';
+import axiosInstance from 'lib/axiosInstance';
 
 const myLoader = ({ src, width, quality = 75 }) => {
   const searchKey = 'upload/';
@@ -125,25 +127,30 @@ Home.getLayout = function getLayout(page) {
 };
 
 export async function getServerSideProps(context) {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${baseUrl}/graphql`, {
-    method: 'post',
-    body: JSON.stringify({
-      query: HomeQuery,
-      variables: {
-        categoryId: 1,
-      },
-    }),
-    headers: {
-      'content-type': 'application/json',
+  const session = await getSession(context);
+  const res = await axiosInstance.post('graphql', {
+    query: HomeQuery,
+    variables: {
+      categoryId: 1,
     },
   });
 
-  const json = await res.json();
+  console.log(res.data);
+
+  console.log(session.token.jwt);
+
+  const carts = await axiosInstance.get('/api/carts', {
+    headers: {
+      Authorization: `Bearer ${session.token.jwt}`,
+    },
+  });
+
+  console.log(carts.data);
 
   return {
     props: {
-      home: json.data,
+      home: res.data.data,
+      session,
     },
   };
 }

@@ -26,7 +26,7 @@ const Login = () => {
   const onLoginSubmit = (values) => {
     const { remember_me, ...rest } = values;
     console.log(rest);
-    signIn('credentials', { ...rest, redirect: '/' });
+    signIn('credentials', { ...rest, callbackUrl: '/' });
   };
 
   return (

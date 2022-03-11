@@ -11,6 +11,7 @@ import { Pagination } from 'swiper';
 import Section from '@components/Section';
 import ProductImage from '@components/ProductImage';
 import axiosInstance from 'lib/axiosInstance';
+import CustomImage from '@components/CustomImage';
 
 const myLoader = ({ src, width, quality = 75 }) => {
   const searchKey = 'upload/';
@@ -60,7 +61,7 @@ const Home = ({ home }) => {
       >
         {home?.banners?.data.map((banner) => (
           <SwiperSlide key={banner.id}>
-            <Image
+            <CustomImage
               src={banner.attributes.bannerImage.data.attributes.url}
               alt="image"
               layout="fill"
@@ -102,19 +103,13 @@ const Home = ({ home }) => {
             role="button"
             onClick={() => router.push(`products/${x.id}`)}
           >
-            <Image
+            <CustomImage
               loader={myLoader}
               src={x.attributes.productImage.data[0].attributes.url}
               alt={x.attributes.productName}
               height={100}
               width={100}
               quality={60}
-              placeholder="blur"
-              blurDataURL={placeholder({
-                src: x.attributes.productImage.data[0].attributes.url,
-                width: 100,
-                quality: 1,
-              })}
             />
           </div>
         );
@@ -136,17 +131,11 @@ export async function getServerSideProps(context) {
     },
   });
 
-  console.log(res.data);
-
-  console.log(session.token.jwt);
-
-  const carts = await axiosInstance.get('/api/carts', {
-    headers: {
-      Authorization: `Bearer ${session.token.jwt}`,
-    },
-  });
-
-  console.log(carts.data);
+  // const carts = await axiosInstance.get('/api/carts', {
+  //   headers: {
+  //     Authorization: `Bearer ${session.token.jwt}`,
+  //   },
+  // });
 
   return {
     props: {

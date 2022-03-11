@@ -49,7 +49,7 @@ const Home = ({ home }) => {
   return (
     <>
       <Swiper
-        className="h-screen"
+        className="h-[calc(100vh-4rem)]"
         slidesPerView={1}
         modules={[Pagination]}
         pagination={{
@@ -64,11 +64,12 @@ const Home = ({ home }) => {
               src={banner.attributes.bannerImage.data.attributes.url}
               alt="image"
               layout="fill"
+              objectFit="contain"
             />
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <Section
           title="Shop By Category"
           linkText="Browse all Category"

@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import { Pagination } from 'swiper';
 import Section from '@components/Section';
 import ProductImage from '@components/ProductImage';
+import AsideList from '@components/AsideList';
+import CardInfo from '@components/CardInfo';
 
 const myLoader = ({ src, width, quality = 75 }) => {
   const searchKey = 'upload/';
@@ -116,6 +118,20 @@ const Home = ({ home }) => {
           </div>
         );
       })}
+      <AsideList title="Category" list={home?.categories?.data} />
+      <div className="flex gap-3 p-3">
+        {home?.categories?.data.map((x) => {
+          return (
+            <div key={x.id}>
+              <CardInfo
+                data={x}
+                desc="Commodo deserunt cillum excepteur occaecat consequat enim in ut."
+                prize="$500"
+              />
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };

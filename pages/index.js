@@ -1,5 +1,5 @@
-import React, { Suspense } from 'react';
-import { getSession } from 'next-auth/react';
+import React, { useContext } from 'react';
+import { useSession, getSession } from 'next-auth/react';
 import MainLayout from 'layouts/MainLayout';
 import Banner from '@components/Banner/banner';
 import Carousal from '@components/carousal';
@@ -12,6 +12,7 @@ import Section from '@components/Section';
 import ProductImage from '@components/ProductImage';
 import axiosInstance from 'lib/axiosInstance';
 import CustomImage from '@components/CustomImage';
+import { CartContext } from 'context/cartContext';
 
 const myLoader = ({ src, width, quality = 75 }) => {
   const searchKey = 'upload/';
@@ -42,11 +43,16 @@ const placeholder = ({ src, width, quality = 75 }) => {
 };
 
 const Home = ({ home }) => {
+  const session = useSession();
+  console.log('session', session);
   console.log(process.env.NEXT_PUBLIC_API_URL);
   const router = useRouter();
   console.log('home', home?.products?.data);
   console.log('banners', home?.banners?.data);
   console.log('category', home?.categories?.data);
+
+  const { cartData, addToCart } = useContext(CartContext);
+
   return (
     <>
       <Swiper
@@ -101,7 +107,7 @@ const Home = ({ home }) => {
           <div
             key={x.id}
             role="button"
-            onClick={() => router.push(`products/${x.id}`)}
+            // onClick={() => router.push(`products/${x.id}`)}
           >
             <CustomImage
               loader={myLoader}
@@ -111,6 +117,11 @@ const Home = ({ home }) => {
               width={100}
               quality={60}
             />
+            {
+              <button type="button" onClick={() => addToCart(x.id)}>
+                Add To Cart
+              </button>
+            }
           </div>
         );
       })}
@@ -130,17 +141,21 @@ export async function getServerSideProps(context) {
       categoryId: 1,
     },
   });
+  let carts = [];
 
-  // const carts = await axiosInstance.get('/api/carts', {
-  //   headers: {
-  //     Authorization: `Bearer ${session.token.jwt}`,
-  //   },
-  // });
+  if (session?.token?.jwt) {
+    carts = await axiosInstance.get('/api/carts', {
+      headers: {
+        Authorization: `Bearer ${session.token.jwt}`,
+      },
+    });
+  }
 
   return {
     props: {
       home: res.data.data,
       session,
+      carts: carts.data.data,
     },
   };
 }

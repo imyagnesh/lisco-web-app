@@ -1,9 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, memo } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
+import { Fragment, memo, useContext, useState } from 'react';
+import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
+import { ShoppingBagIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
+import { CartContext } from 'context/cartContext';
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -12,16 +13,45 @@ const navigation = [
   { name: 'Calendar', href: '#', current: false },
 ];
 
+const products = [
+  {
+    id: 1,
+    name: 'Throwback Hip Bag',
+    href: '#',
+    color: 'Salmon',
+    price: '$90.00',
+    quantity: 1,
+    imageSrc:
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
+    imageAlt:
+      'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
+  },
+  {
+    id: 2,
+    name: 'Medium Stuff Satchel',
+    href: '#',
+    color: 'Blue',
+    price: '$32.00',
+    quantity: 1,
+    imageSrc:
+      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
+    imageAlt:
+      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
+  },
+  // More products...
+];
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const MainLayout = ({ children }) => {
-  const session = useSession();
-  console.log('session', session);
+  const [open, setOpen] = useState(true);
+  const { cartData } = useContext(CartContext);
+
   return (
-    <header>
-      <Disclosure as="nav" className="bg-white">
+    <div>
+      <Disclosure as="nav" className="bg-gray-800">
         {({ open }) => (
           <>
             <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -39,22 +69,16 @@ const MainLayout = ({ children }) => {
                 </div>
                 <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                   <div className="flex-shrink-0 flex items-center">
-                    <div className="block lg:hidden relative">
-                      <Image
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                        alt="Workflow"
-                        height={32}
-                        width={32}
-                      />
-                    </div>
-                    <div className="hidden lg:block relative">
-                      <Image
-                        src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                        alt="Workflow"
-                        height={32}
-                        width={32}
-                      />
-                    </div>
+                    <img
+                      className="block lg:hidden h-8 w-auto"
+                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                      alt="Workflow"
+                    />
+                    <img
+                      className="hidden lg:block h-8 w-auto"
+                      src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+                      alt="Workflow"
+                    />
                   </div>
                   <div className="hidden sm:block sm:ml-6">
                     <div className="flex space-x-4">
@@ -79,10 +103,10 @@ const MainLayout = ({ children }) => {
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   <button
                     type="button"
-                    className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                    className="flex items-center bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                   >
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    <ShoppingBagIcon className="h-6 w-6" aria-hidden="true" />
+                    <span className="px-2">{cartData.length}</span>
                   </button>
 
                   {/* Profile dropdown */}
@@ -177,7 +201,7 @@ const MainLayout = ({ children }) => {
         )}
       </Disclosure>
       {children}
-    </header>
+    </div>
   );
 };
 

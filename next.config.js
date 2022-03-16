@@ -12,8 +12,6 @@ module.exports = {
 
     return config;
   },
-  experimental: {
-    runtime: 'edge',
-  },
+  experimental: {},
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
 };
